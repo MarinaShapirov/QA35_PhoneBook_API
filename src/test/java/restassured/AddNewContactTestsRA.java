@@ -24,7 +24,7 @@ public class AddNewContactTestsRA {
         RestAssured.basePath = "v1";
     }
 
-    @Test
+    @Test//bug - return status 0 instead 200
     public void AddNewContactSuccess() {
         ContactDto contact = createContact();
         Assert.assertTrue(addNewContact(contact));
@@ -48,7 +48,7 @@ public class AddNewContactTestsRA {
         System.out.println(respDto.toString());
     }
 
-    @Test(enabled = false)//bug - add contact with duplicate fields
+    @Test(enabled = false)//bug - add contact with duplicated fields
     public void AddNewContactNegativeDuplicateField() {
         int i = new Random().nextInt(1000) + 1000;
         ContactDto contact = createContact();
@@ -101,7 +101,7 @@ public class AddNewContactTestsRA {
                 .then()
                 .extract().response().as(ErrorDto.class);
         System.out.println(respDto.toString());
-        if (//respDto.getStatus() == 200 &&
+        if (respDto.getStatus() == 200 &&
                 respDto.getMessage().toString().contains("Contact was added!"))
             res = true;
         return res;
